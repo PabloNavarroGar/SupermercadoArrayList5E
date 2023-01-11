@@ -28,10 +28,10 @@ public class Supermercado5E {
             //Si no esta vacia, sale un JOption con llamando al ticket de tiene la clase caja
             switch (opcion) {
                 case 0 -> {
-                    caja.pasarProducto();
+                    caja.pasarUnProducto();//Llamo al metodo en la clase Caja
                 }
                 case 1 -> {
-                    caja.eliminarProducto();
+                    caja.eliminarUnProducto();
                 }
                 case 2 -> {
                     caja.mostrarProductos();

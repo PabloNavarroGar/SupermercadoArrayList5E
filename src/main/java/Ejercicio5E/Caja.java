@@ -89,7 +89,7 @@ public class Caja {
     }
 
     //Metodo para pasar un Producto o Volver atras
-    public void pasarProducto() {
+    public void pasarUnProducto() {
         int opcion;//Creo una opcion que sea el JOption pane
         
         opcion = JOptionPane.showOptionDialog(null, "           Nuevo Producto",
@@ -97,7 +97,7 @@ public class Caja {
                 JOptionPane.QUESTION_MESSAGE, null,// null para icono por defecto.
                 new Object[]{"Introducir datos", "Volver"}, 0);
         if (opcion == 0) {
-            cinta.anadirProducto(crearProducto());//Con el array generado arriba,
+            cinta.anadirProducto(crearUnProducto());//Con el array generado arriba,
             //Si introducir datos es el indice 0. le metemos el metodo de la cinta de añadir un producto
         } else {
             opcion = JOptionPane.CANCEL_OPTION;//No selecciono la otra opcion, se cancela la opcion
@@ -107,7 +107,7 @@ public class Caja {
 
     //Metodo que nos permite crear un producto desde cero para poder añadirlo a la cinta
     //Usa la clade Productos
-    public Productos crearProducto() {
+    public Productos crearUnProducto() {
         
         String nombre;//Nombre del producto
         int cantidad;//cantidad que vamos a meter
@@ -157,7 +157,7 @@ public class Caja {
     }
 
     //Metodo que elimina el producto introduciendo su nombre que este en la cinta
-    public void eliminarProducto() {
+    public void eliminarUnProducto() {
         String nombre = "";
         //Primera condicion que metemos es si la cinta esta vacia, sale un mensaje
         //Si no , entramos en un bucle con condicion de que si le metemos un 
@@ -175,14 +175,14 @@ public class Caja {
                     nombre = "";
                 }
 
-            } while (!comprobarNombre(nombre) || nombre.equals(""));
+            } while (!comprobarUnNombre(nombre) || nombre.equals(""));
             
         }
     }
 
     //Comprobamos que si el nombre que ponemos en eliminarProducto esta en nuestra cinta, osea que existe,
     // eliminamos el producto que sea igual con el nombre pasado por parametro
-    public boolean comprobarNombre(String n) {
+    public boolean comprobarUnNombre(String n) {
 
         boolean existe = false;
         for (Productos p : cinta.getCinta()) {
