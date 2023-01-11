@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author samue
+ * @author pablo
  */
 public class UtilidadesMetodos {
     //Clase para Copiar/Pegar en todos los proyectos con metodos para no volver a escribirlos
@@ -214,9 +214,11 @@ public class UtilidadesMetodos {
     }
     
     
-    
+    //Pedir un String con un JoptionPnae para meter un mensaje 
     public static String pedirString(String mensaje) {
         String string = JOptionPane.showInputDialog(mensaje);
         return string;
     }
+    
+     
 }

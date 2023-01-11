@@ -4,20 +4,21 @@
  */
 package Ejercicio5E;
 
+import java.text.DecimalFormat;
 import java.util.Objects;
 import javax.swing.JOptionPane;
 
 /**
  *
- * @author samue
+ * @author pablo
  */
 public class Caja {
     //Atributos
-    private int codigoIdentificador;
-    private Cinta cinta;
+    private int codigoIdentificador;//Id del producto
+    private Cinta cinta; //Llamo a la cinta, que se tiene que crear previamente a la Caja
 
-    private static int id = 0;
-
+    private static int id = 0;//Contador de la caja 
+    //En el constructor le creo la cinta, ademas de pones el objetocinta como atributo
     public Caja(Cinta cinta) {
         this.codigoIdentificador = id++;
         this.cinta = cinta;
@@ -79,7 +80,7 @@ public class Caja {
     }
 
     //Metodo que crea ticket con los productos que contiene la cinta de la caja
-    //Se necesita la clase Ticket
+    //Se necesita la clase Ticket, creado previamente
     public Ticket generarTicket() {
 
         Ticket t = new Ticket(this.cinta);
@@ -89,28 +90,29 @@ public class Caja {
 
     //Metodo para pasar un Producto o Volver atras
     public void pasarProducto() {
-        int opcion;
-
+        int opcion;//Creo una opcion que sea el JOption pane
+        
         opcion = JOptionPane.showOptionDialog(null, "           Nuevo Producto",
-                "Selector cinta", JOptionPane.YES_NO_CANCEL_OPTION,
+                "Selector de la  cinta", JOptionPane.YES_NO_CANCEL_OPTION,
                 JOptionPane.QUESTION_MESSAGE, null,// null para icono por defecto.
-                new Object[]{"Introdicir datos", "Atrás"}, 0);
+                new Object[]{"Introducir datos", "Volver"}, 0);
         if (opcion == 0) {
-            cinta.anadirProducto(crearProducto());
+            cinta.anadirProducto(crearProducto());//Con el array generado arriba,
+            //Si introducir datos es el indice 0. le metemos el metodo de la cinta de añadir un producto
         } else {
-            opcion = JOptionPane.CANCEL_OPTION;
+            opcion = JOptionPane.CANCEL_OPTION;//No selecciono la otra opcion, se cancela la opcion
         }
 
     }
 
-    //Metodo que nos permite crea un producto desde cero para poder añadirlo a la cinta
+    //Metodo que nos permite crear un producto desde cero para poder añadirlo a la cinta
     //Usa la clade Productos
     public Productos crearProducto() {
         
-        String nombre;
-        int cantidad;
-        double precio;
-        Iva iva;
+        String nombre;//Nombre del producto
+        int cantidad;//cantidad que vamos a meter
+        double precio;// precio, en decimales
+        Iva iva;//El iva que se le llama a la clase que hemos creado
 
         int opcion;
         //Bucle con condicion que introduce cada parte del producto
@@ -118,29 +120,31 @@ public class Caja {
             nombre = UtilidadesMetodos.pedirString("Introduzca el nombre del producto");
             if (nombre == null || nombre.equalsIgnoreCase("")) {
                 nombre = "";
+                //Si le meto un producto sin ningun nombre, no la a dejar pasar
                 JOptionPane.showMessageDialog(null, "No se puede crear un producto sin nombre");
             }
 
-        } while ("".equals(nombre));
+        } while ("".equals(nombre));//metemos las comillas que simbolizan que he introducido nigun valor y se volvera a repetir el bucle
 
         do {
             precio = UtilidadesMetodos.filtrarNumeroDecimalJOptionPane("Introduzca el precio del producto");
             if (precio == 0) {
                 JOptionPane.showMessageDialog(null, "El precio no puede ser 0, vuelva a intentarlo");
             }
-        } while (precio == 0);
+        } while (precio == 0);//Se va a repetir si le meto valor 0
 
         do {
             cantidad = UtilidadesMetodos.filtrarNumeroEnteroJOptionPane("¿Cuantas unidades hay en total?");
             if (cantidad == 0) {
                 JOptionPane.showMessageDialog(null, "La cantidad no puede ser 0, vuelva a intentarlo");
             }
-        } while (cantidad == 0);
+        } while (cantidad == 0); //Se repetira si el valor es 0
         opcion = JOptionPane.showOptionDialog(null, "Seleccione tipo de Iva",
                 "Selector de IVA", JOptionPane.YES_NO_CANCEL_OPTION,
                 JOptionPane.QUESTION_MESSAGE, null,//Null para que salga un boton predeterminado
-                new Object[]{"4%", "10%", "21%"}, 0);
-                
+                new Object[]{"4%", "10%", "21%"}, 0);//Vuelvo a hacer otra ventana con los 3 ivas seleccionados
+         //Si la opcion es el indice 0, el iva sera 4, porque llamo al la clase Iva
+         //Y asi sucesivamente si es la opcion
         if (opcion == 0) {
             iva = Iva.CUATRO;
         } else if (opcion == 1) {
@@ -148,14 +152,16 @@ public class Caja {
         } else {
             iva = Iva.VEINTIUNO;
         }
-
+        // se devuelve de la clase productos con el parametro con sus atributos
         return new Productos(nombre, precio, cantidad, iva.getIva());
     }
 
     //Metodo que elimina el producto introduciendo su nombre que este en la cinta
     public void eliminarProducto() {
         String nombre = "";
-
+        //Primera condicion que metemos es si la cinta esta vacia, sale un mensaje
+        //Si no , entramos en un bucle con condicion de que si le metemos un 
+        //nombre que no existe de los productos hechos, volvera a pedirlo
         if (cinta.esVacia()) {
             JOptionPane.showMessageDialog(null, "La cinta esta vacia"
                     + " no se puede quitar ningun producto de ella");
@@ -163,7 +169,8 @@ public class Caja {
             do {
 
                 nombre = JOptionPane.showInputDialog("Escribe el nombre del producto "
-                        + " para quitarlo de la cinta\n\n" + listaProductos());
+                        + " para quitarlo de la cinta\n\n" + listaProductos());//Sale los productos que hemos creado
+                //El metodo esta  mas abajo
                 if (nombre == null) {
                     nombre = "";
                 }
@@ -196,21 +203,25 @@ public class Caja {
 
     //Devuelve la lista de productos en cinta
     public String listaProductos() {
-        String mensaje = "";
+       
+        String texto = "";
+        //Si la cinta esta vacia
         if (cinta.esVacia()) {
-            mensaje = "No hay productos en la cinta";
+            texto = "No hay productos en la cinta";
         } else {
+            //For each, el cual se le pasan los productos a la cinta
             for (Productos p : cinta.getCinta()) {
-                mensaje += p.toString() + "\n";
+                texto += p.toString() + "\n";//To string que con el for, pne cada producto
             }
         }
-        return mensaje;
+        return texto;
 
     }
 
     //Mostramos por ventana la lista de productos que tiene la cinta actualmente
     public void mostrarProductos() {
-
+     //Una vez creado el metodo de listaProductos, lo introduzco en el mensaje del JOPTION pane para que se muestte
+     //Con un boton solo de volver
         int opcion;
         opcion = JOptionPane.showOptionDialog(null, listaProductos(),
                 "Productos en cinta\n", JOptionPane.YES_NO_CANCEL_OPTION,
