@@ -24,7 +24,7 @@ public class Supermercado5E {
                     JOptionPane.YES_NO_CANCEL_OPTION,//Botones en los menus
                     1,
                     null,// null para icono por defecto.
-                    new Object[]{"Pasar producto", "Eliminar producto", "Productos en la cinta", "Generar ticket", "Salir del programa"}, 0);
+                    new Object[]{"Pasar producto", "Mostrar Productos", "Eliminar Producto", "Generar ticket", "Salir del programa"}, 0);
             //Se crea un array con una serie de botones, los cuales son 5
             //Creo un Switch que seran las opciones, las cuales son pasar el producto, eliminar un producto, mostar todos los productos
             //y un caso que genera un ticket con la condicion de que si la caja esta vacia salga un mensaje de que no se peude genear un ticket
@@ -34,10 +34,11 @@ public class Supermercado5E {
                     caja.pasarUnProducto();//Llamo al metodo en la clase Caja
                 }
                 case 1 -> {
-                    caja.eliminarUnProducto();
+                    caja.mostrarProductos();
                 }
                 case 2 -> {
-                    caja.mostrarProductos();
+                    
+                    caja.eliminarUnProducto();
                 }
                 case 3 -> {
                     if (caja.getCinta().estaVacia()) {

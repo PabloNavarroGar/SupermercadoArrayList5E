@@ -167,7 +167,21 @@ public class Caja {
         // se devuelve de la clase Productos con el parametro con sus atributos hechos en el record
         return new Productos(nombre, precio, cantidad, iva.getIva());
     }
-
+    //----------------------------------------------------------------------------------------------------------------------
+    //Metodo para meter un producto llamando a traves de la cinta, a Diferencia con el de arriba, este solo es si hemos creado 
+    //Los Productos directamente en el main de SupermecadoConMetodos
+    public void meterProductoEnLaCintaEnCaja(Productos p){
+        
+        this.cinta.anadirProducto(p);
+        
+    }
+    //-----------------------------------------------------------------------------------------------------------------------
+    //Metodo para Eliminar un Producto a traves de la cinta con la caja
+    public void ElimiarProductoEnLaCintaEnCaja(Productos p){
+        
+        this.cinta.eliminarProducto(p);
+        
+    }
     //Metodo para comprobar si existe un nombre que hayamos introducido
     public boolean comprobarUnNombre(String nombre) {
 
