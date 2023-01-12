@@ -13,12 +13,14 @@ import javax.swing.JOptionPane;
  * @author pablo
  */
 public class Caja {
+
     //Atributos
     private int codigoIdentificador;//Id del producto
     private Cinta cinta; //Llamo a la cinta, que se tiene que crear previamente a la Caja
 
     private static int id = 0;//Contador de la caja 
     //En el constructor le creo la cinta, ademas de pones el objetocinta como atributo
+
     public Caja(Cinta cinta) {
         this.codigoIdentificador = id++;
         this.cinta = cinta;
@@ -91,14 +93,19 @@ public class Caja {
     //Metodo para pasar un Producto o Volver atras
     public void pasarUnProducto() {
         int opcion;//Creo una opcion que sea el JOption pane
-        
-        opcion = JOptionPane.showOptionDialog(null, "           Nuevo Producto",
-                "Selector de la  cinta", JOptionPane.YES_NO_CANCEL_OPTION,
-                JOptionPane.QUESTION_MESSAGE, null,// null para icono por defecto.
+
+        opcion = JOptionPane.showOptionDialog(null,
+                "           Se va a crear un Producto....",
+                " Cinta",
+                JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,// null para icono por defecto.
                 new Object[]{"Introducir datos", "Volver"}, 0);
         if (opcion == 0) {
             cinta.anadirProducto(crearUnProducto());//Con el array generado arriba,
             //Si introducir datos es el indice 0. le metemos el metodo de la cinta de añadir un producto
+            //Que hemos creado a continuacion de este, usear la opcion del indice 0, llamamos al la cinta,
+            //Con el metodo de añadir un producto y le paso el (p), el metodo de crear un producto
         } else {
             opcion = JOptionPane.CANCEL_OPTION;//No selecciono la otra opcion, se cancela la opcion
         }
@@ -106,16 +113,16 @@ public class Caja {
     }
 
     //Metodo que nos permite crear un producto desde cero para poder añadirlo a la cinta
-    //Usa la clade Productos
+    //Usa la clase Productos y 
     public Productos crearUnProducto() {
-        
+
         String nombre;//Nombre del producto
         int cantidad;//cantidad que vamos a meter
-        double precio;// precio, en decimales
-        Iva iva;//El iva que se le llama a la clase que hemos creado
-
+        double precio =0;// precio, en decimales
+        Iva iva;//Se llama a la clase Iva 
         int opcion;
         //Bucle con condicion que introduce cada parte del producto
+        precio= Math.abs(precio);//Para que si metemos precios negativos salgan positivos.
         do {
             nombre = UtilidadesMetodos.pedirString("Introduzca el nombre del producto");
             if (nombre == null || nombre.equalsIgnoreCase("")) {
@@ -139,12 +146,17 @@ public class Caja {
                 JOptionPane.showMessageDialog(null, "La cantidad no puede ser 0, vuelva a intentarlo");
             }
         } while (cantidad == 0); //Se repetira si el valor es 0
-        opcion = JOptionPane.showOptionDialog(null, "Seleccione tipo de Iva",
-                "Selector de IVA", JOptionPane.YES_NO_CANCEL_OPTION,
+        //Panel para introducir con los botones la opcion del iva
+
+        opcion = JOptionPane.showOptionDialog(null,
+                "Seleccione tipo de Iva",
+                "Selector de IVA",
+                JOptionPane.YES_NO_CANCEL_OPTION,
                 JOptionPane.QUESTION_MESSAGE, null,//Null para que salga un boton predeterminado
-                new Object[]{"4%", "10%", "21%"}, 0);//Vuelvo a hacer otra ventana con los 3 ivas seleccionados
-         //Si la opcion es el indice 0, el iva sera 4, porque llamo al la clase Iva
-         //Y asi sucesivamente si es la opcion
+                new Object[]{"4%", "10%", "21%"}, 0);
+        //Vuelvo a hacer otra ventana con los 3 ivas seleccionados
+        //Si la opcion es el indice 0, el iva sera 4, porque llamo al la clase Iva
+        //Y asi sucesivamente si es la opcion
         if (opcion == 0) {
             iva = Iva.CUATRO;
         } else if (opcion == 1) {
@@ -152,8 +164,27 @@ public class Caja {
         } else {
             iva = Iva.VEINTIUNO;
         }
-        // se devuelve de la clase productos con el parametro con sus atributos
+        // se devuelve de la clase Productos con el parametro con sus atributos hechos en el record
         return new Productos(nombre, precio, cantidad, iva.getIva());
+    }
+
+    //Metodo para comprobar si existe un nombre que hayamos introducido
+    public boolean comprobarUnNombre(String nombre) {
+
+        boolean existe = false;
+        for (Productos p : cinta.getCinta()) {
+            if (nombre.equalsIgnoreCase(p.nombre())) {
+                existe = true;
+                cinta.eliminarProducto(p);
+                break;
+            }
+
+        }
+        if (existe == false) {
+            JOptionPane.showMessageDialog(null, "No existe ese producto en la cinta");
+        }
+
+        return existe;
     }
 
     //Metodo que elimina el producto introduciendo su nombre que este en la cinta
@@ -162,56 +193,37 @@ public class Caja {
         //Primera condicion que metemos es si la cinta esta vacia, sale un mensaje
         //Si no , entramos en un bucle con condicion de que si le metemos un 
         //nombre que no existe de los productos hechos, volvera a pedirlo
-        if (cinta.esVacia()) {
+        if (cinta.estaVacia()) {
             JOptionPane.showMessageDialog(null, "La cinta esta vacia"
                     + " no se puede quitar ningun producto de ella");
         } else {
             do {
 
                 nombre = JOptionPane.showInputDialog("Escribe el nombre del producto "
-                        + " para quitarlo de la cinta\n\n" + listaProductos());//Sale los productos que hemos creado
+                        + " para quitarlo de la cinta \n\n" + listaProductos());//Sale los productos que hemos creado
                 //El metodo esta  mas abajo
                 if (nombre == null) {
                     nombre = "";
                 }
 
             } while (!comprobarUnNombre(nombre) || nombre.equals(""));
-            
+
+            //Comprobamos que si el nombre que ponemos en eliminarProducto esta en nuestra cinta, osea que existe,
+            // eliminamos el producto que sea igual con el nombre pasado por parametro
         }
     }
 
-    //Comprobamos que si el nombre que ponemos en eliminarProducto esta en nuestra cinta, osea que existe,
-    // eliminamos el producto que sea igual con el nombre pasado por parametro
-    public boolean comprobarUnNombre(String n) {
-
-        boolean existe = false;
-        for (Productos p : cinta.getCinta()) {
-            if (n.equalsIgnoreCase(p.nombre())) {
-                existe = true;
-                cinta.eliminarProducto(p);
-                break;
-            }
-
-        }
-        if (existe == false) {
-            JOptionPane.showMessageDialog(null, "No existe ese producto en la cinta"
-                    + " vuelva a repetir");
-        }
-
-        return existe;
-    }
-
-    //Devuelve la lista de productos en cinta
+    //Devuelve la lista de productos en cinta que tiene actualmente.
     public String listaProductos() {
-       
+
         String texto = "";
         //Si la cinta esta vacia
-        if (cinta.esVacia()) {
+        if (cinta.estaVacia()) {
             texto = "No hay productos en la cinta";
         } else {
-            //For each, el cual se le pasan los productos a la cinta
-            for (Productos p : cinta.getCinta()) {
-                texto += p.toString() + "\n";//To string que con el for, pne cada producto
+            //For each, que mostrara todos los productos existentes en la lista
+            for (Productos producto : cinta.getCinta()) {
+                texto += producto.toString() + "\n";// /n para que se muestren en vertical
             }
         }
         return texto;
@@ -220,12 +232,14 @@ public class Caja {
 
     //Mostramos por ventana la lista de productos que tiene la cinta actualmente
     public void mostrarProductos() {
-     //Una vez creado el metodo de listaProductos, lo introduzco en el mensaje del JOPTION pane para que se muestte
-     //Con un boton solo de volver
+        //Una vez creado el metodo de listaProductos, lo introduzco en el mensaje del JOPTION pane para que se muestre
+        //Con un boton solo de volver, le pasamos el metodo que hemos metido anteriormente
         int opcion;
         opcion = JOptionPane.showOptionDialog(null, listaProductos(),
-                "Productos en cinta\n", JOptionPane.YES_NO_CANCEL_OPTION,
-                JOptionPane.QUESTION_MESSAGE, null,// null para icono por defecto.
+                "Productos en cinta\n",
+                JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,// null para icono por defecto.
                 new Object[]{"Volver"}, 0);
 
     }
