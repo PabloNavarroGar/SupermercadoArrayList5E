@@ -36,7 +36,7 @@ public class SupermercadoConMetodos {
         //IMprimimos el Ticket 
         System.out.println(caja1.generarTicket());
 
-        
+        //Probamos el metodo de Eliminar un producto de la cinta
         System.out.println("\n");
         System.out.println("\n");
         System.out.println("\n");

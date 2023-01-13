@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author pablo
  */
 public class Cinta {
-   
+
     private ArrayList<Productos> cinta;//Arraylist que contiene los productos de la cinta
     //Se llama al la clase de Productos
 
@@ -26,8 +26,8 @@ public class Cinta {
     public ArrayList<Productos> getCinta() {
         return cinta;
     }
-    
-     @Override
+
+    @Override
     public String toString() {
         return "Cinta{" + "cinta=" + cinta + '}';
     }
@@ -47,7 +47,7 @@ public class Cinta {
     //Metodo que Vacia la cinta si tiene 0 productos
     public boolean estaVacia() {
 
-        return cinta.isEmpty(); 
+        return cinta.isEmpty();
     }
 
     //Metodo que va a salir en el toString del ticket, que usara lso
@@ -56,19 +56,19 @@ public class Cinta {
         DecimalFormat df = new DecimalFormat("#.00");
         String lista = "";
         //Usando el decimal format para limitar los digitos
-        //foreach que le pasa los productos a la cinta, y la recorre
-        //Decimales limitados y que se muestren numeros positivos
-        
+        //foreach que le pasa los productos a la cinta, y la recorre.
+        //Decimales limitados y que se muestren numeros positivos por si introducimos valores negativos
+
         for (Productos p : cinta) {
 
             lista += p.nombre() + "                          "
                     + Math.abs(p.precio()) + "                 "
                     + p.cantidad() + "           "
                     + p.iva() + "%" + "            "
-                    + df.format(Math.abs(p.precio() * p.cantidad()) ) + "\n";
+                    + df.format(Math.abs(p.precio() * p.cantidad())) + "\n";
 
         }
-       
+
         return lista;
     }
 
@@ -76,11 +76,11 @@ public class Cinta {
     // con los producto divididor por iva y el precio total al pagar
     public String generarStringTotal() {
         DecimalFormat df = new DecimalFormat("#.00");//Limitar los decimales con decimalFormat a dos
-      
+
         int contador4 = 0;//Contador productos de iva 4
         int contador10 = 0;//Contador productos de iva 10
         int contador21 = 0;//Contador productos de iva 21
-      
+
         double precioIva4 = 0; //Precio de los productos iva 4 
         double precioIva10 = 0;//Precio de los productos iva 10
         double precioIva21 = 0;//Precio de los productos iva 21
@@ -114,7 +114,7 @@ public class Cinta {
         }
         //Se imprime la informacion, los String con los contadores y se le pone al lado el precio del procuto
         //Sin iva y luego el Producto con IVA, sigue el ejemplo del ejercicio
-        
+
         datos4 = "Nºproducto. iva4%: " + Math.abs(contador4) + "             Precio sin IVA: " + df.format(Math.abs(precioIva4)) + "               Precio con IVA: " + df.format(Math.abs(precioIva4 + (precioIva4 * 0.04)));
         datos10 = "Nºproducto. iva10%: " + Math.abs(contador10) + "          Precio sin IVA: " + df.format(Math.abs(precioIva10)) + "               Precio con IVA: " + df.format(Math.abs(precioIva10 + (precioIva10 * 0.1)));
         datos21 = "Nºproducto. iva21%: " + Math.abs(contador21) + "          Precio sin IVA: " + df.format(Math.abs(precioIva21)) + "               Precio con IVA: " + df.format(Math.abs(precioIva21 + (precioIva21 * 0.21)));
@@ -127,9 +127,5 @@ public class Cinta {
         return total;
 
     }
-    
-   
-    
-    
-    
+
 }

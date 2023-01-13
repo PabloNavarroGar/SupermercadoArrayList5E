@@ -25,7 +25,7 @@ public class Supermercado5E {
                     1,
                     null,// null para icono por defecto.
                     new Object[]{"Pasar producto", "Mostrar Productos", "Eliminar Producto", "Generar ticket", "Salir del programa"}, 0);
-            //Se crea un array con una serie de botones, los cuales son 5
+            //Se crea un array con una serie de mensakes, los cuales son 5
             //Creo un Switch que seran las opciones, las cuales son pasar el producto, eliminar un producto, mostar todos los productos
             //y un caso que genera un ticket con la condicion de que si la caja esta vacia salga un mensaje de que no se peude genear un ticket
             //Si no esta vacia, sale un JOption con llamando al ticket de tiene la clase caja
